@@ -1,0 +1,44 @@
+.clear {
+    width: 100%;
+    height: 0px;
+    clear: both;
+    font-size: 0px;
+    line-height: 0px;
+}
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+/* Hides from IE-mac \*/
+* html .clearfix {
+    height: 2%;
+}
+
+/* End hide from IE-mac */
+/* ======================================================================================= */
+.quick-contact {
+}
+
+.quick-contact .block-content {
+    padding: 5px 10px;
+}
+
+.quick-contact .button-set {
+    margin-top: 20px;
+}
+
+.quick-contact .error_message {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ff0000;
+}
+
+textare #comment .required-entry input-text {
+    height: 150px;
+    width: 390px;
+}

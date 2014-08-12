@@ -1,0 +1,9 @@
+app/code/community/Magebuzz/Quickcontact  app/code/community/Magebuzz/Quickcontact
+app/design/adminhtml/default/default/layout/quickcontact.xml  app/design/adminhtml/default/default/layout/quickcontact.xml
+app/design/frontend/base/default/layout/quickcontact.xml  app/design/frontend/base/default/layout/quickcontact.xml
+app/design/frontend/base/default/template/quickcontact  app/design/frontend/base/default/template/quickcontact
+app/etc/modules/Magebuzz_Quickcontact.xml  app/etc/modules/Magebuzz_Quickcontact.xml
+app/locale/en_US/Magebuzz_Quickcontact.csv  app/locale/en_US/Magebuzz_Quickcontact.csv
+app/locale/en_US/template/email/quickcontact  app/locale/en_US/template/email/quickcontact
+lib/captcha  lib/captcha
+skin/frontend/base/default/css/magebuzz/quickcontact.css  skin/frontend/base/default/css/magebuzz/quickcontact.css

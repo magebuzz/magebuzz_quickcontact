@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+  <quickcontact_adminhtml_quickcontact_index>
+    <reference name="content">
+      <block type="quickcontact/adminhtml_quickcontact" name="quickcontact"/>
+    </reference>
+  </quickcontact_adminhtml_quickcontact_index>
+</layout>

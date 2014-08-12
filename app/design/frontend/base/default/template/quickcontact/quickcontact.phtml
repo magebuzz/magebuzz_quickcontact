@@ -1,0 +1,108 @@
+<?php
+$isEnableQuickContact = Mage::helper('quickcontact')->isEnableQuickContact();
+$isEnableSidebar = Mage::helper('quickcontact')->isEnableSidebar();
+$positionOfSidebar = Mage::helper('quickcontact')->displayOnSideBar();
+$isEnableCaptchar = Mage::helper('quickcontact')->isEnableCaptcha();
+$emailAdminSender = Mage::helper('quickcontact')->emailAdminSender();
+$emailCustomerSender = Mage::helper('quickcontact')->emailCustomerSender();
+$receptionEmailAdmin = Mage::helper('quickcontact')->receptionEmailAdmin();
+$emailAdminTempate = Mage::helper('quickcontact')->emailAdminTempate();
+$emailCustomerTempate = Mage::helper('quickcontact')->emailCustomerTempate();
+?>
+<?php if (Mage::getStoreConfig('quickcontact/general/enabled') == 1): ?>
+  <div class="quick-contact">
+    <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+    <form action="<?php echo $this->getUrl("quickcontact/index/post"); ?>" id="contactForm" method="post">
+      <div class="input-box">
+        <input type="hidden" name="currentUrl" id="currentUrl"
+               value="<?php echo Mage::helper('core/url')->getCurrentUrl() ?>"/>
+      </div>
+      <div class="fieldset">
+        <h4 class="legend"><?php echo Mage::helper('contacts')->__('Quick Contact') ?></h4>
+        <?php $slogan = Mage::getStoreConfig('quickcontact/general/slogan'); ?>
+        <?php if ($slogan): ?>
+          <p><?php echo $slogan ?></p>
+        <?php endif; ?>
+        <ul class="form-list">
+          <li class="fields">
+            <div class="field">
+              <label for="name"><?php echo Mage::helper('contacts')->__('Name') ?> <span
+                  class="required">*</span></label><br/>
+              <input name="name" id="name" title="<?php echo Mage::helper('contacts')->__('Name') ?>"
+                     value="<?php echo $this->htmlEscape($this->helper('contacts')->getUserName()) ?>"
+                     class="required-entry input-text" type="text"/>
+            </div>
+
+            <div class="field">
+              <label for="email"><?php echo Mage::helper('contacts')->__('Email') ?> <span
+                  class="required">*</span></label><br/>
+              <input name="email" id="email" title="<?php echo Mage::helper('contacts')->__('Email') ?>"
+                     value="<?php echo $this->htmlEscape($this->helper('contacts')->getUserEmail()) ?>"
+                     class="required-entry input-text validate-email" type="text"/>
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="field">
+              <label for="telephone"><?php echo Mage::helper('contacts')->__('Telephone') ?></label><br/>
+              <input name="telephone" id="telephone" title="<?php echo Mage::helper('contacts')->__('Telephone') ?>"
+                     value="" class="input-text" type="text"/>
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="field">
+              <label for="comment"><?php echo Mage::helper('contacts')->__('Comment') ?></label><br/>
+              <textarea name="comment" id="comment" title="<?php echo Mage::helper('contacts')->__('Comment') ?>"
+                        class="required-entry input-text" style="height:150px;width:400px;" cols="50"
+                        rows="5"></textarea>
+            </div>
+            <div class="clear"></div>
+            <?php if (Mage::getStoreConfig('quickcontact/general/enabled_captcha')): ?>
+              <div class="input-box">
+                <img src="<?php echo $this->getUrl('quickcontact/index/imageCaptcha'); ?>" id="captcha_image"/>
+              </div>
+              <div class="clear"></div>
+              <span><a href="" onclick="refreshImage();return false;"><?php echo $this->__("Refresh"); ?></a></span>
+              <br/>
+              <label><?php echo $this->__('Enter the text above'); ?>:</label>
+              <input type="text" name="captcha_text" class="required-entry input-text" id="captcha_text" value=""
+                     style="width:100px;"/>
+              <br/>
+              <div class="error_message">
+							<?php 
+								if (isset($_SESSION['recaptcha_error'])) {
+									echo $_SESSION['recaptcha_error'];
+									unset($_SESSION['recaptcha_error']);
+								}
+							?>
+						 </div>
+            <?php endif; ?>
+          </li>
+        </ul>
+      </div>
+      <div class="button-set">
+        <p class="required"><?php echo Mage::helper('contacts')->__('* Required Fields') ?></p>
+        <input type="text" name="hideit" id="hideit" value="" style="display:none !important;"/>
+        <input type="hidden" name="check" id="check" value="1"/>
+        <button class="form-button button right" title="Submit" type="submit">
+          <span><span><?php echo Mage::helper('contacts')->__('Submit') ?></span></span></button>
+      </div>
+    </form>
+  </div>
+  <script type="text/javascript">
+    var contactForm = new VarienForm('contactForm', true);
+    function refreshImage() {
+      url = '<?php echo $this->getUrl('quickcontact/index/refreshcaptcha');?>';
+      $('captcha_image').src = '';
+      capchaRefesh = new Ajax.Request(url, {
+        method: 'get',
+        onSuccess: function (transport) {
+          imageCapcha = new Image();
+          imageCapcha.src = transport.responseText;
+          $('captcha_image').src = imageCapcha.src;
+        }
+      });
+    }
+  </script>
+<?php endif; ?>	

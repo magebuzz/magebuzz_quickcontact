@@ -1,0 +1,87 @@
+<?php if (Mage::getStoreConfig('quickcontact/general/enabled_sidebar') == 1): ?>
+  <div class="block quick-contact">
+    <div class="block-title">
+      <strong><span><?php echo $this->__('Quick Contact') ?></span></strong>
+    </div>
+    <div class="block-content">
+      <?php $slogan = Mage::getStoreConfig('quickcontact/general/slogan'); ?>
+      <?php if ($slogan): ?>
+        <p><?php echo $slogan ?></p>
+      <?php endif; ?>
+      <form action="<?php echo $this->getUrl("quickcontact/index/post"); ?>" id="contactSidebarForm" method="post">
+        <div class="input-box">
+          <input type="hidden" name="currentUrl" id="currentUrl"
+                 value="<?php echo Mage::helper('core/url')->getCurrentUrl() ?>"/>
+        </div>
+        <div class="input-box">
+          <label for="name"><?php echo Mage::helper('contacts')->__('Name') ?> <span
+              class="required">*</span></label><br/>
+          <input name="name" id="name" title="<?php echo Mage::helper('contacts')->__('Name') ?>"
+                 value="<?php echo $this->htmlEscape($this->helper('contacts')->getUserName()) ?>" type="text"
+                 class="required-entry input-text"/>
+        </div>
+        <div class="input-box">
+          <label for="email"><?php echo Mage::helper('contacts')->__('Email') ?> <span class="required">*</span></label><br/>
+          <input name="email" id="email" title="<?php echo Mage::helper('contacts')->__('Email') ?>"
+                 value="<?php echo $this->htmlEscape($this->helper('contacts')->getUserEmail()) ?>"
+                 class="required-entry input-text validate-email" type="text"/>
+        </div>
+        <div class="clear"></div>
+        <div class="input-box">
+          <label for="telephone"><?php echo Mage::helper('contacts')->__('Telephone') ?></label><br/>
+          <input name="telephone" id="telephone" title="<?php echo Mage::helper('contacts')->__('Telephone') ?>"
+                 value="" class="input-text" type="text"/>
+        </div>
+        <div class="input-box">
+          <label for="comment"><?php echo Mage::helper('contacts')->__('Comment') ?></label><br/>
+          <textarea name="comment" id="comment" title="<?php echo Mage::helper('contacts')->__('Comment') ?>"
+                    class="required-entry input-text" style="height:50px;width:100%;" cols="50" rows="5"></textarea>
+        </div>
+        <div class="clear"></div>
+        <?php if (Mage::getStoreConfig('quickcontact/general/enabled_captcha')): ?>
+          <div class="input-box">
+            <img src="<?php echo $this->getUrl('quickcontact/index/imageCaptcha'); ?>" id="captcha_image"/>
+          </div>
+          <span><a href="" onclick="refreshImage();return false;"><?php echo $this->__("Refresh"); ?></a></span>
+          <div class="clear"></div>
+          <label><?php echo $this->__('Enter the text above'); ?>:</label>
+          <input type="text" name="captcha_text" class="required-entry input-text" id="captcha_text" value=""/>
+          <div class="clear"></div>
+          <div class="error_message">
+					<?php
+						if (isset($_SESSION['recaptcha_error'])) {
+							echo $_SESSION['recaptcha_error'];
+							unset($_SESSION['recaptcha_error']);
+						}
+					?>
+				</div>
+        <?php endif; ?>
+        <div class="button-set">
+          <p class="required"><?php echo Mage::helper('contacts')->__('* Required Fields') ?></p>
+          <input type="text" name="hideit" id="hideit" value="" style="display:none !important;"/>
+          <input type="hidden" name="check" id="check" value="1"/>
+          <button class="button right" type="submit"><span><?php echo Mage::helper('contacts')->__('Submit') ?></span>
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+  <script type="text/javascript">
+    //< ![CDATA[
+    var contactSidebarForm = new VarienForm('contactSidebarForm', true);
+    function refreshImage() {
+      url = '<?php echo $this->getUrl('quickcontact/index/refreshcaptcha');?>';
+      $('captcha_image').src = '';
+      capchaRefesh = new Ajax.Request(url, {
+        method: 'get',
+        onSuccess: function (transport) {
+          imageCapcha = new Image();
+          imageCapcha.src = transport.responseText;
+          $('captcha_image').src = imageCapcha.src;
+        }
+      });
+    }
+    //]]>
+  </script>
+<?php endif; ?>
